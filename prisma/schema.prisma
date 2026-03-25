@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Wallpaper {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  description  String?
+  originalUrl  String
+  previewUrl   String?
+  thumbnailUrl String?
+  width        Int
+  height       Int
+  format       String
+  size         Int?
+  viewsCount   Int      @default(0)
+  downloads    Int      @default(0)
+  isPublic     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tags WallpaperTag[]
+
+  @@index([slug])
+  @@index([createdAt(sort: Desc)])
+  @@index([viewsCount])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  color     String?  @default("#6366f1")
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wallpapers WallpaperTag[]
+
+  @@index([name])
+  @@index([slug])
+  @@index([count(sort: Desc)])
+}
+
+model WallpaperTag {
+  id          String   @id @default(cuid())
+  wallpaperId String
+  tagId       String
+  createdAt   DateTime @default(now())
+
+  wallpaper Wallpaper @relation(fields: [wallpaperId], references: [id], onDelete: Cascade)
+  tag       Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([wallpaperId, tagId])
+  @@index([wallpaperId])
+  @@index([tagId])
+}
+
+// Admin/User model for authentication
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      UserRole @default(USER)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}

@@ -1,0 +1,64 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": false,
+		"checkJs": false,
+		"noImplicitAny": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"allowSyntheticDefaultImports": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "react",
+		"incremental": true,
+		"paths": {
+			// in index.tsx export * from files
+			// react feats
+			"@providers": ["./src/providers/index.ts"],
+			"@hooks": ["./src/hooks/index.ts"],
+			"@helpers": ["./src/helpers/index.ts"],
+			// business login
+			"@constants": ["./src/constants/index.ts"],
+			"@types": ["./src/types/index.ts"],
+			"@store": ["./src/store/index.ts"],
+			"@services": ["./src/services/index.ts"],
+			// external
+			"@/lib/*": ["./src/lib/*"],
+			// components
+			"@shadcn": ["./src/shared/shadcn/index.ts"],
+			"@layout": ["./src/components/layout/index.ts"],
+			"@widgets": ["./src/components/widgets/index.ts"],
+			"@wallpaper": ["./src/components/wallpaper/index.ts"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		// test
+		"types": ["jest", "@testing-library/jest-dom", "node"]
+	},
+	"include": [
+		"svgr.d.ts", // svgr
+		"next-env.d.ts", // next env
+		"src/services/shared/declarations.d.ts", // for css, scss, sass
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		".next/dev/types/**/*.ts",
+		// test
+		"**/*.test.ts",
+		"**/*.test.tsx",
+		"jest.config.js"
+	],
+	"exclude": ["node_modules"]
+}
